@@ -111,7 +111,7 @@ public class LoginTest {
                 "Ch&&sec@ke99!",
                 "+27838968976",
                 "Risuna",
-                "Charity"
+                "Mashele"
         );
 
         assertEquals(
@@ -133,7 +133,7 @@ public class LoginTest {
                 "Ch&&sec@ke99!",
                 "+27838968976",
                 "Risuna",
-                "Charity"
+                "Mashele"
         );
 
         assertEquals(
@@ -155,7 +155,7 @@ public class LoginTest {
                 "password",
                 "+27838968976",
                 "Risuna",
-                "Charity"
+                "Mashele"
         );
 
         assertEquals(
@@ -177,7 +177,7 @@ public class LoginTest {
                 "Ch&&sec@ke99!",
                 "08966553",
                 "Risuna",
-                "Charity"
+                "Mashele"
         );
 
         assertEquals(
@@ -199,7 +199,7 @@ public class LoginTest {
                 "Ch&&sec@ke99!",
                 "+27838968976",
                 "Risuna",
-                "Charity"
+                "Mashele"
         );
 
         boolean result = instance.loginUser(
@@ -223,7 +223,7 @@ public class LoginTest {
                 "Ch&&sec@ke99!",
                 "+27838968976",
                 "Risuna",
-                "Charity"
+                "Mashele"
         );
 
         boolean result = instance.loginUser(
@@ -247,13 +247,13 @@ public class LoginTest {
                 "Ch&&sec@ke99!",
                 "+27838968976",
                 "Risuna",
-                "Charity"
+                "Mashele"
         );
 
         String result = instance.returnLoginStatus(true);
 
         assertEquals(
-                "Welcome Risuna, Charity it is great to see you again.",
+                "Welcome Risuna Mashele, it is great to see you again.",
                 result
         );
     }

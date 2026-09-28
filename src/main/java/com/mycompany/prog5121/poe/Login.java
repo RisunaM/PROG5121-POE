@@ -24,7 +24,7 @@ public class Login {
 
         return username != null
                 && username.contains("_")
-                && username.length() <= 5;
+                && username.length() <= 7;
     }
 
     /**
