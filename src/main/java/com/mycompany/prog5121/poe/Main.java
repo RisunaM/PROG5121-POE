@@ -1,16 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.prog5121.poe;
+
 import java.util.Scanner;
 
 /**
- *
- * @author risun
+ * Main class used to run the registration and login system.
  */
 public class Main {
-    
+
     public static void main(String[] args) {
 
         // Create Scanner object for keyboard input
@@ -41,39 +37,44 @@ public class Main {
         System.out.print("Enter Cell Number (+27xxxxxxxxx): ");
         String cellPhone = input.nextLine();
 
-        // Call registerUser method
+        // Register the user
         String registrationResult = login.registerUser(
                 username,
                 password,
                 cellPhone,
                 firstName,
-                lastName);
+                lastName
+        );
 
         // Display registration result
         System.out.println(registrationResult);
 
-        // Continue only if registration was successful
+        // Continue to login only if registration was successful
         if (registrationResult.equals("User successfully registered.")) {
 
             System.out.println("\n===== LOGIN =====");
 
-            // Ask user to login
+            // Get login username
             System.out.print("Username: ");
             String loginUsername = input.nextLine();
 
+            // Get login password
             System.out.print("Password: ");
             String loginPassword = input.nextLine();
 
-            // Validate login details
-            boolean loggedIn =
-                    login.loginUser(loginUsername, loginPassword);
+            // Check login details
+            boolean loggedIn = login.loginUser(
+                    loginUsername,
+                    loginPassword
+            );
 
-            // Display login result
+            // Display login status
             System.out.println(
-                    login.returnLoginStatus(loggedIn));
+                    login.returnLoginStatus(loggedIn)
+            );
         }
 
-        // Close scanner to prevent resource leak
+        // Close Scanner
         input.close();
     }
 }
