@@ -39,7 +39,7 @@ public class LoginTest {
     /**
      * Test of checkUserName method, of class Login.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testCheckUserName() {
         System.out.println("checkUserName");
         String username = "";
@@ -54,7 +54,7 @@ public class LoginTest {
     /**
      * Test of checkPasswordComplexity method, of class Login.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testCheckPasswordComplexity() {
         System.out.println("checkPasswordComplexity");
         String password = "";
@@ -69,7 +69,7 @@ public class LoginTest {
     /**
      * Test of checkCellPhoneNumber method, of class Login.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testCheckCellPhoneNumber() {
         System.out.println("checkCellPhoneNumber");
         String cellPhone = "";
@@ -84,7 +84,7 @@ public class LoginTest {
     /**
      * Test of registerUser method, of class Login.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testRegisterUser() {
         System.out.println("registerUser");
         String username = "";
@@ -103,7 +103,7 @@ public class LoginTest {
     /**
      * Test of loginUser method, of class Login.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testLoginUser() {
         System.out.println("loginUser");
         String username = "";
@@ -119,7 +119,7 @@ public class LoginTest {
     /**
      * Test of returnLoginStatus method, of class Login.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testReturnLoginStatus() {
         System.out.println("returnLoginStatus");
         boolean loginSuccessful = false;
