@@ -252,9 +252,8 @@ public class LoginTest {
 
         String result = instance.returnLoginStatus(true);
 
-        assertEquals(
-                "Welcome Risuna Mashele, it is great to see you again.",
-                result
+        assertEquals("Welcome Risuna Mashele,it is great to see you again.",
+               result
         );
     }
 

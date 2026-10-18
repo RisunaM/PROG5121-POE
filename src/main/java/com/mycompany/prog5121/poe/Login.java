@@ -24,7 +24,7 @@ public class Login {
 
         return username != null
                 && username.contains("_")
-                && username.length() <= 7;
+                && username.length() <= 5;
     }
 
     /**
@@ -156,9 +156,9 @@ public class Login {
     public String returnLoginStatus(boolean loginSuccessful) {
 
         if (loginSuccessful) {
-            return "Welcome " + firstName + ", "
-                    + lastName
-                    + " it is great to see you again.";
+            return "Welcome " + firstName + " "
+                    + lastName + ","
+                    + "it is great to see you again.";
         }
 
         return "Username or password incorrect, please try again.";
