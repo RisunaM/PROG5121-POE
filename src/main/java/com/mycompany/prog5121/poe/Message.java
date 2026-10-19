@@ -88,7 +88,7 @@ public class Message {
 
         return "Message exceeds 250 characters by "
                 + excess
-                + "; please reduce the size.";
+                + ", please reduce the size.";
     }
 
     /**
