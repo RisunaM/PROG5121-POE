@@ -84,14 +84,14 @@ public class Message {
             return "Message ready to send.";
         }
 
-        int excess = message.length() - 240;
+        int excess = message.length() - 250;
 
         return "Message exceeds 250 characters by "
                 + excess
                 + ", please reduce the size.";
     }
 
-    /**
+    /**s
      * Creates the message hash.
      */
     public String createMessageHash() {
