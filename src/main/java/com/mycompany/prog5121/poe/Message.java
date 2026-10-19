@@ -1,78 +1,86 @@
-
 package com.mycompany.prog5121.poe;
 
-import java.util.Random;
-import java.util.ArrayList;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Random;
+import org.json.simple.JSONObject;
 
+/**
+ * Handles message creation, validation, storage and display.
+ */
 public class Message {
 
     private String messageID;
     private String recipient;
     private String message;
     private String messageHash;
+    private int messageNumber;
 
     private static int totalMessages = 0;
 
-    private static final ArrayList<String> messages =
+    private static ArrayList<String> sentMessages =
             new ArrayList<>();
 
-    private static final Path JSON_FILE =
-            Paths.get("messages.json");
+    /**
+     * Constructor
+     */
+    public Message(String recipient,
+                   String message) {
 
-    public Message(String recipient, String message) {
-
-        this.messageID = generateMessageID();
         this.recipient = recipient;
         this.message = message;
+        this.messageNumber = totalMessages;
+
+        this.messageID = generateMessageID();
 
         this.messageHash = createMessageHash();
     }
 
-    // Generate a random 10-digit message ID
+    /**
+     * Generates a random 10-digit message ID.
+     */
     private String generateMessageID() {
 
         Random random = new Random();
 
-        long number = 1000000000L
-                + (long) (random.nextDouble() * 9000000000L);
+        long id =
+                1000000000L
+                + (long) (random.nextDouble()
+                * 9000000000L);
 
-        return String.valueOf(number);
+        return String.valueOf(id);
     }
 
-    // Check that the message ID contains no more than 10 digits
+    /**
+     * Checks that Message ID is not more than
+     * 10 characters long.
+     */
     public boolean checkMessageID() {
 
-        return messageID != null
-                && messageID.matches("\\d{1,10}");
+        return messageID.length() <= 10;
     }
 
-    // Validate the recipient's South African cell phone number
+    /**
+     * Validates recipient number.
+     */
     public String checkRecipientCell() {
 
-        if (recipient != null
-                && recipient.matches("^\\+27\\d{9}$")) {
+        if (recipient.matches("^\\+27\\d{9}$")) {
 
             return "Cell phone number successfully captured.";
         }
 
-        return "Cell phone number is incorrectly formatted or "
-                + "does not contain an international code. "
-                + "Please correct the number and try again.";
+        return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
     }
 
-    // Validate the message length
+    /**
+     * Validates message length.
+     */
     public String validateMessage() {
 
-        if (message == null || message.trim().isEmpty()) {
-            return "Message cannot be empty.";
-        }
-
         if (message.length() <= 250) {
+
             return "Message ready to send.";
         }
 
@@ -80,76 +88,63 @@ public class Message {
 
         return "Message exceeds 250 characters by "
                 + excess
-                + ", please reduce the size.";
+                + "; please reduce the size.";
     }
 
-    // Create a message hash
+    /**
+     * Creates the message hash.
+     */
     public String createMessageHash() {
 
-        String safeMessage = (message == null) ? "" : message.trim();
+        String cleanMessage =
+                message.replaceAll(
+                        "[^a-zA-Z0-9 ]",
+                        ""
+                );
 
-        String[] words = safeMessage.isEmpty()
-                ? new String[0]
-                : safeMessage.split("\\s+");
+        String[] words =
+                cleanMessage.trim()
+                        .split("\\s+");
 
-        String firstWord = words.length > 0 ? words[0] : "";
-        String lastWord = words.length > 0
-                ? words[words.length - 1] : "";
+        String firstWord = words[0];
+
+        String lastWord =
+                words[words.length - 1];
 
         return messageID.substring(0, 2)
                 + ":"
-                + (totalMessages + 1)
+                + messageNumber
                 + ":"
-                + (firstWord + lastWord).toUpperCase();
+                + (firstWord + lastWord)
+                .toUpperCase();
     }
 
-    // Send, disregard, or store a message
+    /**
+     * Handles send/store/disregard options.
+     */
     public String sendMessage(int option) {
 
         switch (option) {
 
             case 1:
 
-                if (!checkRecipientCell().equals(
-                        "Cell phone number successfully captured.")) {
-                    return "Message not sent. Please enter a valid recipient number.";
-                }
-
-                if (!validateMessage().equals(
-                        "Message ready to send.")) {
-                    return "Message not sent. Please correct the message.";
-                }
-
                 totalMessages++;
 
-                // Refresh the hash using the sent-message count
-                messageHash = createMessageHashForSentMessage();
-
-                messages.add(printMessage());
+                sentMessages.add(
+                        printMessage()
+                );
 
                 return "Message successfully sent.";
 
             case 2:
 
-                return "Message disregarded.";
+                return "Press 0 to delete the message.";
 
             case 3:
 
-                if (!checkRecipientCell().equals(
-                        "Cell phone number successfully captured.")) {
-                    return "Message not stored. Please enter a valid recipient number.";
-                }
+                storeMessage();
 
-                if (!validateMessage().equals(
-                        "Message ready to send.")) {
-                    return "Message not stored. Please correct the message.";
-                }
-
-                if (saveMessageToJson()) {
-                    return "Message successfully stored.";
-                }
-
-                return "Unable to store message. Please check file permissions.";
+                return "Message successfully stored.";
 
             default:
 
@@ -157,131 +152,115 @@ public class Message {
         }
     }
 
-    // Create the hash using the current sent-message total
-    private String createMessageHashForSentMessage() {
+    /**
+     * Stores message into JSON file.
+     */
+    public void storeMessage() {
 
-        String safeMessage = message.trim();
-        String[] words = safeMessage.split("\\s+");
+        JSONObject obj =
+                new JSONObject();
 
-        String firstWord = words[0];
-        String lastWord = words[words.length - 1];
+        obj.put("MessageID", messageID);
+        obj.put("MessageHash", messageHash);
+        obj.put("Recipient", recipient);
+        obj.put("Message", message);
 
-        return messageID.substring(0, 2)
-                + ":"
-                + totalMessages
-                + ":"
-                + (firstWord + lastWord).toUpperCase();
+        try {
+
+            FileWriter file =
+                    new FileWriter(
+                            "messages.json",
+                            true
+                    );
+
+            file.write(
+                    obj.toJSONString()
+            );
+
+            file.write(
+                    System.lineSeparator()
+            );
+
+            file.close();
+
+        } catch (IOException e) {
+
+            System.out.println(
+                    "Error storing message."
+            );
+        }
     }
 
-    // Display message details
+    /**
+     * Displays a sent message.
+     */
     public String printMessage() {
 
-        return "Message ID: " + messageID
-                + "\nMessage Hash: " + messageHash
-                + "\nRecipient: " + recipient
-                + "\nMessage: " + message;
+        return
+                "Message ID: "
+                + messageID
+                + "\nMessage Hash: "
+                + messageHash
+                + "\nRecipient: "
+                + recipient
+                + "\nMessage: "
+                + message;
     }
 
-    // Display all successfully sent messages
+    /**
+     * Returns all messages sent.
+     */
     public static String printMessages() {
 
-        if (messages.isEmpty()) {
-            return "No sent messages available.";
-        }
+        StringBuilder output =
+                new StringBuilder();
 
-        StringBuilder output = new StringBuilder();
+        for (String msg : sentMessages) {
 
-        for (String msg : messages) {
-            output.append(msg).append("\n\n");
+            output.append(msg)
+                  .append("\n\n");
         }
 
         return output.toString();
     }
 
-    // Return the total number of successfully sent messages
+    /**
+     * Returns total messages sent.
+     */
     public static int returnTotalMessages() {
 
         return totalMessages;
     }
 
-    // Store the message in a JSON file
-    public void storeMessage() {
+    /**
+     * Getter for Message ID.
+     */
+    public String getMessageID() {
 
-        if (saveMessageToJson()) {
-            System.out.println("Message stored in JSON file.");
-        } else {
-            System.out.println("Error: Message could not be stored.");
-        }
+        return messageID;
     }
 
-    // Write valid JSON containing stored messages
-    private boolean saveMessageToJson() {
+    /**
+     * Getter for Message Hash.
+     */
+    public String getMessageHash() {
 
-        try {
-            String existingJson = "[]";
-
-            if (Files.exists(JSON_FILE)) {
-                existingJson = new String(
-                        Files.readAllBytes(JSON_FILE),
-                        StandardCharsets.UTF_8
-                ).trim();
-
-                if (existingJson.isEmpty()) {
-                    existingJson = "[]";
-                }
-            }
-
-            if (!existingJson.startsWith("[")
-                    || !existingJson.endsWith("]")) {
-                return false;
-            }
-
-            String jsonMessage = "{"
-                    + "\"messageID\":\"" + escapeJson(messageID) + "\","
-                    + "\"messageHash\":\"" + escapeJson(messageHash) + "\","
-                    + "\"recipient\":\"" + escapeJson(recipient) + "\","
-                    + "\"message\":\"" + escapeJson(message) + "\""
-                    + "}";
-
-            String content = existingJson.substring(
-                    1, existingJson.length() - 1
-            ).trim();
-
-            String updatedJson;
-
-            if (content.isEmpty()) {
-                updatedJson = "[" + jsonMessage + "]";
-            } else {
-                updatedJson = "[" + content + "," + jsonMessage + "]";
-            }
-
-            Files.write(
-                    JSON_FILE,
-                    updatedJson.getBytes(StandardCharsets.UTF_8)
-            );
-
-            return true;
-
-        } catch (IOException e) {
-
-            return false;
-        }
+        return messageHash;
     }
 
-    // Escape special characters so the JSON remains valid
-    private String escapeJson(String value) {
+    /**
+     * Getter for Recipient.
+     */
+    public String getRecipient() {
 
-        if (value == null) {
-            return "";
-        }
+        return recipient;
+    }
 
-        return value
-                .replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("\b", "\\b")
-                .replace("\f", "\\f")
-                .replace("\n", "\\n")
-                .replace("\r", "\\r")
-                .replace("\t", "\\t");
+    /**
+     * Getter for Message.
+     */
+    public String getMessage() {
+
+        return message;
     }
 }
