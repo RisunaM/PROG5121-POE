@@ -271,69 +271,73 @@ public class Message {
      */
     public static void loadStoredMessages() {
 
-        storedMessages.clear();
+    storedMessages.clear();
+    messageIDs.clear();
+    messageHashes.clear();
 
-        File file =
-                new File("messages.json");
+    File file = new File("messages.json");
 
-        if (!file.exists()) {
-            return;
-        }
-
-        JSONParser parser =
-                new JSONParser();
-
-        try {
-
-            JSONArray jsonArray =
-                    (JSONArray) parser.parse(
-                            new FileReader(file));
-
-            for (Object object : jsonArray) {
-
-                JSONObject obj =
-                        (JSONObject) object;
-
-                String sender =
-                        (String) obj.get("Sender");
-
-                String recipient =
-                        (String) obj.get("Recipient");
-
-                String message =
-                        (String) obj.get("Message");
-
-                Message storedMessage =
-                        new Message(sender,
-                                recipient,
-                                message);
-
-                messageIDs.remove(
-                        storedMessage.messageID);
-
-                messageHashes.remove(
-                        storedMessage.messageHash);
-
-                storedMessage.messageID =
-                        (String) obj.get("MessageID");
-
-                storedMessage.messageHash =
-                        (String) obj.get("MessageHash");
-
-                storedMessage.status =
-                        (String) obj.get("Status");
-
-                storedMessages.add(
-                        storedMessage);
-            }
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Error loading messages: "
-                            + e.getMessage());
-        }
+    if (!file.exists()) {
+        return;
     }
+
+    JSONParser parser = new JSONParser();
+
+    try {
+
+        JSONArray jsonArray =
+                (JSONArray) parser.parse(
+                        new FileReader(file));
+
+        for (Object object : jsonArray) {
+
+            JSONObject obj = (JSONObject) object;
+
+            String sender =
+                    (String) obj.get("Sender");
+
+            String recipient =
+                    (String) obj.get("Recipient");
+
+            String message =
+                    (String) obj.get("Message");
+
+            Message storedMessage =
+                    new Message(
+                            sender,
+                            recipient,
+                            message
+                    );
+
+            // Remove auto-generated values
+            messageIDs.remove(storedMessage.messageID);
+            messageHashes.remove(storedMessage.messageHash);
+
+            // Restore original values
+            storedMessage.messageID =
+                    (String) obj.get("MessageID");
+
+            storedMessage.messageHash =
+                    (String) obj.get("MessageHash");
+
+            storedMessage.status =
+                    (String) obj.get("Status");
+
+            // Add restored values
+            messageIDs.add(storedMessage.messageID);
+            messageHashes.add(storedMessage.messageHash);
+
+            storedMessages.add(storedMessage);
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Error loading messages: "
+                + e.getMessage()
+        );
+    }
+}
 
     /**
      * Search by Message ID
