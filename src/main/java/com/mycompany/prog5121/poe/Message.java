@@ -134,10 +134,10 @@ public class Message {
                 cleanMessage.trim()
                         .split("\\s+");
 
-        String firstWord = words[0];
+        String firstWord = words.length>0 ? words[0]:"";
 
         String lastWord =
-                words[words.length - 1];
+                words.length>0 ? words[words.length - 1]: "";
 
         return messageID.substring(0, 2)
                 + ":"
