@@ -26,6 +26,14 @@ public class Message {
     //Array 2: All disregarded messages
     private static ArrayList<String> disregardedMessages =
             new ArrayList<>();
+    
+    //Array 3: All stored messages
+    private static ArrayList<Message> storedMessages =
+            new ArrayList<>();
+    
+    //Array 4: All messages hashes
+    private static ArrayList<String> messageHashes =
+            new ArrayList<>();
 
     /**
      * Constructor
