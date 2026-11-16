@@ -228,7 +228,51 @@ public class Message {
             );
         }
     }
-
+    /** 
+     * Reads stored messages from the JSON file.
+     */        
+    public stastic void loadStoredMessages() throws FileNotFoundException {
+        
+        storedMessages.clear();
+        
+        JSONParser parser = new JSONParser();
+        
+        File file = new File("message.json");
+        
+        if (!file.exists()) {
+            return;
+        }
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            
+            while ((line = reader.readLine()) !=null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+                
+                JSONObject obj = (JSONObject) parser.parse(line);
+                
+                String sender = (String) obj.get("Sender");
+                String recipient = (String) obj.get("Recipient");
+                String message = (String)obj.get("Message");
+                
+                Message storedMessage =
+                        new Message(sender, recipient, message);
+                
+                storedMessage.messageID =
+                        (String)obj.get("Message");
+                
+                storedMessage.messageHash =
+                        (String)obj.get("MessageHash");
+                
+                storedMessage.status = "Stored";
+                
+                storedMessages.add(storedMessage);     
+            }
+        }
+    }
+  
     /**
      * Displays a sent message.
      */
