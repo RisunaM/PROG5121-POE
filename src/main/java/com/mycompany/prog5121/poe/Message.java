@@ -270,6 +270,10 @@ public class Message {
                 
                 storedMessages.add(storedMessage);     
             }
+        } catch (Exception e) {
+            
+            System.out.println("Error loading stored messages:" + e.getMessage()
+            );
         }
     }
   
