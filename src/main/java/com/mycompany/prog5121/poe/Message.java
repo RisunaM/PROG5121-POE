@@ -34,6 +34,10 @@ public class Message {
     //Array 4: All messages hashes
     private static ArrayList<String> messageHashes =
             new ArrayList<>();
+    
+    // Array 5: All message IDs
+    private static ArrayList<String> messageIDs = 
+            new ArrayList<>();
 
     /**
      * Constructor
