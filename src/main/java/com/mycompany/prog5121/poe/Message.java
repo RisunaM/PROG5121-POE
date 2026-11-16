@@ -358,6 +358,52 @@ public class Message {
         return output.toString();
     }   
     
+}   
+
+/**
+ * Deletes a stored message using its message hash.
+ */
+public static String deleteMessageByHash(String hash) {
+    
+    loadStoredMessages();
+    
+    boolean removed = storedMessages.removeIf(
+    msg -> msg.messageHash.equals(hash)
+    );
+    
+    if (!removed) {
+        return "Message hash not found.";
+    }
+    
+    rewriteJSONFile();
+    
+    return "Message successfully deleted.";
+    }
+/**
+ * Rewrites the JSON file after deleting a message.
+ */
+private static void rewriteJSONFile() {
+    try (FileWriter file = new FileWriter("message.json", false)) {
+      for (Message msg : storedMessages) {
+          JSONObject obj = new JSONObject();
+          
+          obj.put("MessageID", msg.messageID);
+          obj.put("MessageHash", msg.messageHash);
+          obj.put("Sender", msg.sender);
+          obj.put("Recipient", msg.recipient);
+          obj.put(Message, msg.message);
+          obj.put("Status", "Stored" );
+          
+          file.write(obj.toJSONString());
+          file.write(System.lineSeparator());
+          
+      }  
+    } catch (IOException e) {
+        
+        System.out.println(
+        "Error updating JSON file: " + e.getMessage()
+        );
+    }
 }
     /**
      * Displays a sent message.
