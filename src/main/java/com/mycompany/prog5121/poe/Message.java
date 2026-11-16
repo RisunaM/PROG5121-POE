@@ -336,6 +336,30 @@ public class Message {
         return "Message ID not found.";
     }
     /**
+     * Searches for all stored messages belonging to a recipient.
+     */
+    public static String searchMessagesByReciipient(String recipientNumber) {
+        loadStoredMessages();
+        StringBuilder output = new StringBuilder();
+        for (Message msg : storedMessages) {
+            if (msg.recipient.equals(recipientNumber)) {
+                
+                output.append("Message ID: ")
+                        .append(msg.messageID)
+                        .append("\nMessage: ")
+                        .append(msg.message)
+                        .append("\n\n");
+            }
+        }
+        if (output.length() == 0){
+            return "No messages found for this recipient.";
+        }
+        
+        return output.toString();
+    }   
+    
+}
+    /**
      * Displays a sent message.
      */
     public String printMessage() {
