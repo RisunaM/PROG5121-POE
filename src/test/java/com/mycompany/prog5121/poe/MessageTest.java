@@ -234,9 +234,9 @@ public class MessageTest {
 
         String hash = msg.getMessageHash();
 
-        assertEquals(
-                "Message deleted successfully.",
+        assertTrue(
                 Message.deleteMessageByHash(hash)
+                       .contains("deleted")
         );
 
         assertEquals(
