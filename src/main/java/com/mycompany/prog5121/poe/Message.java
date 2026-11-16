@@ -231,7 +231,7 @@ public class Message {
     /** 
      * Reads stored messages from the JSON file.
      */        
-    public stastic void loadStoredMessages() throws FileNotFoundException {
+    public static void loadStoredMessages() {
         
         storedMessages.clear();
         
