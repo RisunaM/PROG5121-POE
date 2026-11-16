@@ -490,6 +490,7 @@ public static String displayReport() {
 
         return messageID;
     }
+    
 
     /**
      * Getter for Message Hash.
@@ -514,4 +515,40 @@ public static String displayReport() {
 
         return message;
     }
+    
+    /**
+     * Return all sent messages.
+     */
+    public static ArrayList<String> getSentMessages() {
+        return sentMessages;
+    }
+    
+     /**
+     * Return all disregarded messages.
+     */
+    public static ArrayList<String> getDisregardedMessages() {
+        return disregardedMessages;
+    }
+    
+    
+    /**
+     * Returns all stored messages.
+     */
+    public static ArrayList<Message> getStoredMessages() {
+        return storedMessages;
+    }
+
+    /**
+     * Returns all message hashes.
+     */
+    public static ArrayList<Message> getMessageHashes() {
+        return messageHashes;
+    }
+    
+     /**
+     * Returns all message IDs.
+     */
+    public static ArrayList<Message> getMessageIDs() {
+        return messageIDs;
+    }   
 }
