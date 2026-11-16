@@ -535,7 +535,24 @@ public class Message {
     return report.toString();
 }
 
+/**
+ * Display all the hashes
+ */
+    
+    public static String displayMessageHashes() {
 
+    StringBuilder output =
+            new StringBuilder();
+
+    for (String hash : messageHashes) {
+
+        output.append(hash)
+              .append("\n");
+    }
+
+    return output.toString();
+}
+    
     /**
      * Display Stored Senders & Recipients
      */
