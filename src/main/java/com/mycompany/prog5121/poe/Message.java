@@ -155,23 +155,31 @@ public class Message {
         switch (option) {
 
             case 1:
-
+                
+                status = "Sent";
+                
                 totalMessages++;
 
-                sentMessages.add(
-                        printMessage()
-                );
+                sentMessages.add(message);
 
                 return "Message successfully sent.";
 
             case 2:
-
-                return "Press 0 to delete the message.";
+                
+                status = "Disregarded";
+                
+                disregardedMessages.add(message);
+                
+                return "Message disregarded.";
 
             case 3:
 
+                status = "Stored";
+                
                 storeMessage();
 
+                storedMessages.add(this);
+                
                 return "Message successfully stored.";
 
             default:
