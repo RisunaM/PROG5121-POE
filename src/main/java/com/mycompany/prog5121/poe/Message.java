@@ -16,6 +16,8 @@ public class Message {
     private String message;
     private String messageHash;
     private int messageNumber;
+    private String sender;
+    private String status = "";
 
     private static int totalMessages = 0;
 
