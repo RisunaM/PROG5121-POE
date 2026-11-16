@@ -19,7 +19,12 @@ public class Message {
 
     private static int totalMessages = 0;
 
+    // Array 1: All sent messages
     private static ArrayList<String> sentMessages =
+            new ArrayList<>();
+    
+    //Array 2: All disregarded messages
+    private static ArrayList<String> disregardedMessages =
             new ArrayList<>();
 
     /**
