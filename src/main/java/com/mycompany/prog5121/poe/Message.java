@@ -276,7 +276,51 @@ public class Message {
             );
         }
     }
-  
+    /**
+     * Display the sender and recipient of stored messages.
+     */
+    public static String displayStoredSendersAndRecipients() {
+        
+        loadStoredMessages();
+        
+        StringBuilder output = new StringBuilder();
+        
+        for (Message msg : storedMessages) {
+            output.append("Sender:")
+                   .append(msg.sender)
+                    .append("\nRecipient: ")
+                    .append("\n\n");
+        }
+        
+        if (storedMessages.isEmpty()) {
+            return "No stored messages found.";
+        }
+        
+        return output.toString();
+    }
+    
+    /**
+     * Finds the longest stored message.
+     */
+    public static String displayLongestMesssage() {
+        loadStoredMessages();
+        
+        if (storedMessages.isEmpty()) {
+            return "No stored messages found.";
+        }
+        
+        Message longest = storedMessages.get(0);
+        
+        for (Message msg : storedMessages) {
+            if (msg.message.length() > longest.message.length()) {
+                longest = msg;
+            }
+        }
+        
+        return longest.message;
+    }
+    
+    
     /**
      * Displays a sent message.
      */
