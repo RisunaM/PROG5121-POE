@@ -320,7 +320,21 @@ public class Message {
         return longest.message;
     }
     
-    
+    /**
+     * Searches for a stored message using its ID.
+     */
+    public static String searchMessageByID(String id) {
+        loadStoredMessage();
+        
+        for (Message msg : storedMessages) {
+            if(msg.messageID.equals(id)) {
+                return "Recipient: " + msg.recipient
+                        + "\nMessage: " + msg.message;
+            }
+        }
+        
+        return "Message ID not found.";
+    }
     /**
      * Displays a sent message.
      */
