@@ -46,9 +46,7 @@ public class Message {
     /**
      * Constructor
      */
-    public Message(String recipient,
-                   String message) {
-
+    public Message(String recipient, String message) {
         this("Developer", recipient, message);
     }
 
@@ -74,34 +72,33 @@ public class Message {
     }
 
     /**
-     * Generate 10-digit Message ID
+     * Generate Message ID
      */
     private String generateMessageID() {
 
         Random random = new Random();
 
         long id =
-                1000000000L +
-                (long) (random.nextDouble() * 9000000000L);
+                1000000000L
+                + (long) (random.nextDouble()
+                * 9000000000L);
 
         return String.valueOf(id);
     }
 
     /**
-     * Check Message ID
+     * Validate Message ID
      */
     public boolean checkMessageID() {
-
         return messageID.length() <= 10;
     }
 
     /**
-     * Check Recipient Number
+     * Validate Recipient
      */
     public String checkRecipientCell() {
 
         if (recipient.matches("^\\+27\\d{9}$")) {
-
             return "Cell phone number successfully captured.";
         }
 
@@ -114,12 +111,10 @@ public class Message {
     public String validateMessage() {
 
         if (message.length() <= 250) {
-
             return "Message ready to send.";
         }
 
-        int excess =
-                message.length() - 250;
+        int excess = message.length() - 250;
 
         return "Message exceeds 250 characters by "
                 + excess
@@ -148,22 +143,19 @@ public class Message {
                 cleanMessage.trim()
                         .split("\\s+");
 
-        String firstWord =
-                words[0];
-
-        String lastWord =
-                words[words.length - 1];
+        String firstWord = words[0];
+        String lastWord = words[words.length - 1];
 
         return messageID.substring(0, 2)
                 + ":"
                 + messageNumber
                 + ":"
                 + (firstWord + lastWord)
-                .toUpperCase();
+                        .toUpperCase();
     }
 
     /**
-     * Send / Store / Disregard
+     * Send Message Options
      */
     public String sendMessage(int option) {
 
@@ -172,9 +164,7 @@ public class Message {
             case 1:
 
                 status = "Sent";
-
                 sentMessages.add(message);
-
                 totalMessages++;
 
                 return "Message successfully sent.";
@@ -182,7 +172,6 @@ public class Message {
             case 2:
 
                 status = "Disregarded";
-
                 disregardedMessages.add(message);
 
                 return "Message disregarded.";
@@ -204,7 +193,7 @@ public class Message {
     }
 
     /**
-     * Store Message to JSON Array
+     * Store Message
      */
     @SuppressWarnings("unchecked")
     public void storeMessage() {
@@ -231,23 +220,12 @@ public class Message {
             JSONObject obj =
                     new JSONObject();
 
-            obj.put("MessageID",
-                    messageID);
-
-            obj.put("MessageHash",
-                    messageHash);
-
-            obj.put("Sender",
-                    sender);
-
-            obj.put("Recipient",
-                    recipient);
-
-            obj.put("Message",
-                    message);
-
-            obj.put("Status",
-                    status);
+            obj.put("MessageID", messageID);
+            obj.put("MessageHash", messageHash);
+            obj.put("Sender", sender);
+            obj.put("Recipient", recipient);
+            obj.put("Message", message);
+            obj.put("Status", status);
 
             jsonArray.add(obj);
 
@@ -271,78 +249,84 @@ public class Message {
      */
     public static void loadStoredMessages() {
 
-    storedMessages.clear();
-    messageIDs.clear();
-    messageHashes.clear();
+        storedMessages.clear();
+        messageIDs.clear();
+        messageHashes.clear();
 
-    File file = new File("messages.json");
+        File file =
+                new File("messages.json");
 
-    if (!file.exists()) {
-        return;
-    }
-
-    JSONParser parser = new JSONParser();
-
-    try {
-
-        JSONArray jsonArray =
-                (JSONArray) parser.parse(
-                        new FileReader(file));
-
-        for (Object object : jsonArray) {
-
-            JSONObject obj = (JSONObject) object;
-
-            String sender =
-                    (String) obj.get("Sender");
-
-            String recipient =
-                    (String) obj.get("Recipient");
-
-            String message =
-                    (String) obj.get("Message");
-
-            Message storedMessage =
-                    new Message(
-                            sender,
-                            recipient,
-                            message
-                    );
-
-            // Remove auto-generated values
-            messageIDs.remove(storedMessage.messageID);
-            messageHashes.remove(storedMessage.messageHash);
-
-            // Restore original values
-            storedMessage.messageID =
-                    (String) obj.get("MessageID");
-
-            storedMessage.messageHash =
-                    (String) obj.get("MessageHash");
-
-            storedMessage.status =
-                    (String) obj.get("Status");
-
-            // Add restored values
-            messageIDs.add(storedMessage.messageID);
-            messageHashes.add(storedMessage.messageHash);
-
-            storedMessages.add(storedMessage);
+        if (!file.exists()) {
+            return;
         }
 
-    } catch (Exception e) {
+        JSONParser parser =
+                new JSONParser();
 
-        System.out.println(
-                "Error loading messages: "
-                + e.getMessage()
-        );
+        try {
+
+            JSONArray jsonArray =
+                    (JSONArray) parser.parse(
+                            new FileReader(file));
+
+            for (Object object : jsonArray) {
+
+                JSONObject obj =
+                        (JSONObject) object;
+
+                String sender =
+                        (String) obj.get("Sender");
+
+                String recipient =
+                        (String) obj.get("Recipient");
+
+                String message =
+                        (String) obj.get("Message");
+
+                Message storedMessage =
+                        new Message(
+                                sender,
+                                recipient,
+                                message);
+
+                messageIDs.remove(
+                        storedMessage.messageID);
+
+                messageHashes.remove(
+                        storedMessage.messageHash);
+
+                storedMessage.messageID =
+                        (String) obj.get("MessageID");
+
+                storedMessage.messageHash =
+                        (String) obj.get("MessageHash");
+
+                storedMessage.status =
+                        (String) obj.get("Status");
+
+                messageIDs.add(
+                        storedMessage.messageID);
+
+                messageHashes.add(
+                        storedMessage.messageHash);
+
+                storedMessages.add(
+                        storedMessage);
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "Error loading messages: "
+                            + e.getMessage());
+        }
     }
-}
 
     /**
-     * Search by Message ID
+     * Search By Message ID
      */
-    public static String searchMessageByID(String id) {
+    public static String searchMessageByID(
+            String id) {
 
         loadStoredMessages();
 
@@ -361,7 +345,7 @@ public class Message {
     }
 
     /**
-     * Search by Recipient
+     * Search By Recipient
      */
     public static String searchMessagesByRecipient(
             String recipientNumber) {
@@ -377,9 +361,7 @@ public class Message {
 
                 output.append("Message ID: ")
                         .append(msg.messageID)
-                        .append("\n");
-
-                output.append("Message: ")
+                        .append("\nMessage: ")
                         .append(msg.message)
                         .append("\n\n");
             }
@@ -391,27 +373,25 @@ public class Message {
     }
 
     /**
-     * Delete Message by Hash
+     * Delete Message By Hash
      */
     public static String deleteMessageByHash(
-        String hash) {
+            String hash) {
 
-    loadStoredMessages();
+        loadStoredMessages();
 
-    boolean removed =
-            storedMessages.removeIf(
-                    msg -> msg.messageHash.equals(hash)
-            );
+        boolean removed =
+                storedMessages.removeIf(
+                        msg -> msg.messageHash.equals(hash));
 
-    if (!removed) {
+        if (!removed) {
+            return "Message hash not found.";
+        }
 
-        return "Message hash not found.";
+        rewriteJSONFile();
+
+        return "Message deleted successfully.";
     }
-
-    rewriteJSONFile();
-
-    return "Message deleted successfully.";
-}
 
     /**
      * Rewrite JSON File
@@ -427,23 +407,12 @@ public class Message {
             JSONObject obj =
                     new JSONObject();
 
-            obj.put("MessageID",
-                    msg.messageID);
-
-            obj.put("MessageHash",
-                    msg.messageHash);
-
-            obj.put("Sender",
-                    msg.sender);
-
-            obj.put("Recipient",
-                    msg.recipient);
-
-            obj.put("Message",
-                    msg.message);
-
-            obj.put("Status",
-                    msg.status);
+            obj.put("MessageID", msg.messageID);
+            obj.put("MessageHash", msg.messageHash);
+            obj.put("Sender", msg.sender);
+            obj.put("Recipient", msg.recipient);
+            obj.put("Message", msg.message);
+            obj.put("Status", msg.status);
 
             jsonArray.add(obj);
         }
@@ -458,7 +427,8 @@ public class Message {
         } catch (IOException e) {
 
             System.out.println(
-                    e.getMessage());
+                    "Error updating file: "
+                            + e.getMessage());
         }
     }
 
@@ -470,7 +440,6 @@ public class Message {
         loadStoredMessages();
 
         if (storedMessages.isEmpty()) {
-
             return "No stored messages.";
         }
 
@@ -486,7 +455,10 @@ public class Message {
             }
         }
 
-        return longest.message;
+        return "Message ID: "
+                + longest.messageID
+                + "\nMessage: "
+                + longest.message;
     }
 
     /**
@@ -494,74 +466,55 @@ public class Message {
      */
     public static String displayReport() {
 
-    loadStoredMessages();
+        loadStoredMessages();
 
-    if (storedMessages.isEmpty()) {
-        return "No stored messages available.";
-    }
+        if (storedMessages.isEmpty()) {
+            return "No stored messages available.";
+        }
 
-    StringBuilder report =
-            new StringBuilder();
-
-    report.append(
-            "==== MESSAGE REPORT ====\n\n");
-
-    for (Message msg : storedMessages) {
-
-        report.append("Message ID: ")
-                .append(msg.messageID)
-                .append("\n");
-
-        report.append("Message Hash: ")
-                .append(msg.messageHash)
-                .append("\n");
-
-        report.append("Sender: ")
-                .append(msg.sender)
-                .append("\n");
-
-        report.append("Recipient: ")
-                .append(msg.recipient)
-                .append("\n");
-
-        report.append("Message: ")
-                .append(msg.message)
-                .append("\n");
+        StringBuilder report =
+                new StringBuilder();
 
         report.append(
-                "-------------------------\n");
+                "========== STORED MESSAGES REPORT ==========\n\n");
+
+        for (Message msg : storedMessages) {
+
+            report.append("Message ID: ")
+                    .append(msg.messageID)
+                    .append("\n");
+
+            report.append("Message Hash: ")
+                    .append(msg.messageHash)
+                    .append("\n");
+
+            report.append("Sender: ")
+                    .append(msg.sender)
+                    .append("\n");
+
+            report.append("Recipient: ")
+                    .append(msg.recipient)
+                    .append("\n");
+
+            report.append("Message: ")
+                    .append(msg.message)
+                    .append("\n");
+
+            report.append(
+                    "----------------------------------\n");
+        }
+
+        return report.toString();
     }
 
-    return report.toString();
-}
-
-/**
- * Display all the hashes
- */
-    
-    public static String displayMessageHashes() {
-
-    StringBuilder output =
-            new StringBuilder();
-
-    for (String hash : messageHashes) {
-
-        output.append(hash)
-              .append("\n");
-    }
-
-    return output.toString();
-}
-    
     /**
-     * Display Stored Senders & Recipients
+     * Display Senders And Recipients
      */
     public static String displayStoredSendersAndRecipients() {
 
         loadStoredMessages();
 
         if (storedMessages.isEmpty()) {
-
             return "No stored messages found.";
         }
 
@@ -572,9 +525,7 @@ public class Message {
 
             output.append("Sender: ")
                     .append(msg.sender)
-                    .append("\n");
-
-            output.append("Recipient: ")
+                    .append("\nRecipient: ")
                     .append(msg.recipient)
                     .append("\n\n");
         }
@@ -583,27 +534,65 @@ public class Message {
     }
 
     /**
-     * Print Message Details
+     * Display Hashes
      */
-   public String printMessage() {
+    public static String displayMessageHashes() {
 
-    return "Message ID: "
-            + messageID
-            + "\nMessage Hash: "
-            + messageHash
-            + "\nSender: "
-            + sender
-            + "\nRecipient: "
-            + recipient
-            + "\nMessage: "
-            + message;
-}
+        if (messageHashes.isEmpty()) {
+            return "No message hashes available.";
+        }
+
+        StringBuilder output =
+                new StringBuilder();
+
+        for (String hash : messageHashes) {
+
+            output.append(hash)
+                    .append("\n");
+        }
+
+        return output.toString();
+    }
 
     /**
-     * Total Messages
+     * Print Message
      */
-    public static int returnTotalMessages() {
+    public String printMessage() {
 
+        return "Message ID: "
+                + messageID
+                + "\nMessage Hash: "
+                + messageHash
+                + "\nSender: "
+                + sender
+                + "\nRecipient: "
+                + recipient
+                + "\nMessage: "
+                + message;
+    }
+
+    /**
+     * Print Sent Messages
+     */
+    public static String printMessages() {
+
+        if (sentMessages.isEmpty()) {
+            return "No sent messages.";
+        }
+
+        StringBuilder output =
+                new StringBuilder();
+
+        for (String msg : sentMessages) {
+
+            output.append(msg)
+                    .append("\n\n");
+        }
+
+        return output.toString();
+    }
+
+    public static int returnTotalMessages() {
         return totalMessages;
     }
 
@@ -622,10 +611,10 @@ public class Message {
     public String getMessage() {
         return message;
     }
-    
+
     public String getStatus() {
-    return status;
-}
+        return status;
+    }
 
     public static ArrayList<String> getSentMessages() {
         return sentMessages;
