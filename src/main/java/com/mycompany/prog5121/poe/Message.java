@@ -46,6 +46,10 @@ public class Message {
      */
     public Message(String recipient,
                    String message) {
+        this ("Developer", recipient, message);
+    }
+    
+    public Message(String sender, String recipient, String message) {
 
         this.recipient = recipient;
         this.message = message;
