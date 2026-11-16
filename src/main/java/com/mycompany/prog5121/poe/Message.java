@@ -405,6 +405,28 @@ private static void rewriteJSONFile() {
         );
     }
 }
+/**
+ * Displays a complete report of all stored messages.
+ */
+public static String displayReport() {
+    loadStoredMessages();
+    
+    if (storedMessages.isEmpty()) {
+        return "No stored messages available."
+    }
+    
+    StringBuilder report = new StringBuilder();
+    report.append("========== STORED MESSAGES REPORT ==========\n\n");
+    
+    for(Message msg : storedMessages) {
+        report.append("Message ID: ")
+                .append("\n");
+        
+        report.append("Message Hash: ")
+                .append(msg.messageHash)
+                .append("\n");
+        
+    }
     /**
      * Displays a sent message.
      */
