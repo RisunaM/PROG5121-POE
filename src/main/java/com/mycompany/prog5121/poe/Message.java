@@ -426,7 +426,22 @@ public static String displayReport() {
                 .append(msg.messageHash)
                 .append("\n");
         
+        report.append("Sender: ")
+                .append(msg.sender)
+                .append("\n");
+        
+        report.append("Recipient: ")
+                .append(msg.recipient)
+                .append("\n");
+        
+        report.append("Message: ")
+                .append(msg.message)
+                .append("\n");
+        
+        report.append("-----------------------------------\n");
     }
+    return report.toString();
+}
     /**
      * Displays a sent message.
      */
