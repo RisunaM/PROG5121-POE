@@ -394,24 +394,24 @@ public class Message {
      * Delete Message by Hash
      */
     public static String deleteMessageByHash(
-            String hash) {
+        String hash) {
 
-        loadStoredMessages();
+    loadStoredMessages();
 
-        boolean removed =
-                storedMessages.removeIf(
-                        msg ->
-                                msg.messageHash.equals(hash));
+    boolean removed =
+            storedMessages.removeIf(
+                    msg -> msg.messageHash.equals(hash)
+            );
 
-        if (!removed) {
+    if (!removed) {
 
-            return "Message hash not found.";
-        }
-
-        rewriteJSONFile();
-
-        return "Message deleted successfully.";
+        return "Message hash not found.";
     }
+
+    rewriteJSONFile();
+
+    return "Message deleted successfully.";
+}
 
     /**
      * Rewrite JSON File
@@ -494,42 +494,47 @@ public class Message {
      */
     public static String displayReport() {
 
-        loadStoredMessages();
+    loadStoredMessages();
 
-        StringBuilder report =
-                new StringBuilder();
+    if (storedMessages.isEmpty()) {
+        return "No stored messages available.";
+    }
+
+    StringBuilder report =
+            new StringBuilder();
+
+    report.append(
+            "==== MESSAGE REPORT ====\n\n");
+
+    for (Message msg : storedMessages) {
+
+        report.append("Message ID: ")
+                .append(msg.messageID)
+                .append("\n");
+
+        report.append("Message Hash: ")
+                .append(msg.messageHash)
+                .append("\n");
+
+        report.append("Sender: ")
+                .append(msg.sender)
+                .append("\n");
+
+        report.append("Recipient: ")
+                .append(msg.recipient)
+                .append("\n");
+
+        report.append("Message: ")
+                .append(msg.message)
+                .append("\n");
 
         report.append(
-                "==== MESSAGE REPORT ====\n\n");
-
-        for (Message msg : storedMessages) {
-
-            report.append("Message ID: ")
-                    .append(msg.messageID)
-                    .append("\n");
-
-            report.append("Message Hash: ")
-                    .append(msg.messageHash)
-                    .append("\n");
-
-            report.append("Sender: ")
-                    .append(msg.sender)
-                    .append("\n");
-
-            report.append("Recipient: ")
-                    .append(msg.recipient)
-                    .append("\n");
-
-            report.append("Message: ")
-                    .append(msg.message)
-                    .append("\n");
-
-            report.append(
-                    "-------------------------\n");
-        }
-
-        return report.toString();
+                "-------------------------\n");
     }
+
+    return report.toString();
+}
+
 
     /**
      * Display Stored Senders & Recipients
