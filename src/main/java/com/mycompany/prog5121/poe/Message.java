@@ -174,7 +174,7 @@ public class Message {
 
                 storeMessage();
 
-                return "Message successfully stored.";
+                return "Message stored successfully.";
 
             default:
 
