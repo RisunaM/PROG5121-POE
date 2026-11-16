@@ -568,34 +568,19 @@ public class Message {
     /**
      * Print Message Details
      */
-    public String printMessage() {
+   public String printMessage() {
 
-        return "Message ID: "
-                + messageID
-                + "\nMessage Hash: "
-                + messageHash
-                + "\nRecipient: "
-                + recipient
-                + "\nMessage: "
-                + message;
-    }
-
-    /**
-     * Print Sent Messages
-     */
-    public static String printMessages() {
-
-        StringBuilder output =
-                new StringBuilder();
-
-        for (String msg : sentMessages) {
-
-            output.append(msg)
-                    .append("\n\n");
-        }
-
-        return output.toString();
-    }
+    return "Message ID: "
+            + messageID
+            + "\nMessage Hash: "
+            + messageHash
+            + "\nSender: "
+            + sender
+            + "\nRecipient: "
+            + recipient
+            + "\nMessage: "
+            + message;
+}
 
     /**
      * Total Messages
