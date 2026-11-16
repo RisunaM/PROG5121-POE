@@ -62,6 +62,9 @@ public class Main {
         // ================= QUICKCHAT =================
         System.out.println("\nWelcome to QuickChat!");
 
+        // Load previously stored messages
+        Message.loadStoredMessages();
+
         int numMessages = readNonNegativeInt(
                 input, "How many messages would you like to send? "
         );
@@ -73,6 +76,7 @@ public class Main {
             System.out.println("1. Send Messages");
             System.out.println("2. Show Recently Sent Messages");
             System.out.println("3. Quit");
+            System.out.println("4. Stored Messages");
 
             choice = readInt(input, "Choose an option: ");
 
@@ -149,10 +153,15 @@ public class Main {
                     System.out.println("Goodbye.");
                     break;
 
+                case 4:
+
+                    storedMessagesMenu(input);
+                    break;
+
                 default:
 
                     System.out.println(
-                            "Invalid option. Please choose 1, 2, or 3."
+                            "Invalid option. Please choose 1, 2, 3, or 4."
                     );
             }
 
@@ -166,10 +175,98 @@ public class Main {
         input.close();
     }
 
-    // Read an integer safely
+    // ================= STORED MESSAGES MENU =================
+
+    private static void storedMessagesMenu(Scanner input) {
+
+        String option;
+
+        do {
+            System.out.println("\n===== STORED MESSAGES =====");
+            System.out.println("a. Display sender and recipient of stored messages");
+            System.out.println("b. Display the longest stored message");
+            System.out.println("c. Search for a message using Message ID");
+            System.out.println("d. Display messages for a particular recipient");
+            System.out.println("e. Delete a message using its Message Hash");
+            System.out.println("f. Display a full report of stored messages");
+            System.out.println("g. Return to main menu");
+
+            System.out.print("Choose an option: ");
+            option = input.nextLine().trim().toLowerCase();
+
+            switch (option) {
+
+                case "a":
+
+                    System.out.println(
+                            Message.displayStoredSendersAndRecipients()
+                    );
+                    break;
+
+                case "b":
+
+                    System.out.println(
+                            "Longest stored message:\n"
+                            + Message.displayLongestMessage()
+                    );
+                    break;
+
+                case "c":
+
+                    System.out.print("Enter Message ID: ");
+                    String messageID = input.nextLine();
+
+                    System.out.println(
+                            Message.searchMessageByID(messageID)
+                    );
+                    break;
+
+                case "d":
+
+                    System.out.print("Enter recipient number: ");
+                    String recipient = input.nextLine();
+
+                    System.out.println(
+                            Message.searchMessagesByRecipient(recipient)
+                    );
+                    break;
+
+                case "e":
+
+                    System.out.print("Enter Message Hash: ");
+                    String messageHash = input.nextLine();
+
+                    System.out.println(
+                            Message.deleteMessageByHash(messageHash)
+                    );
+                    break;
+
+                case "f":
+
+                    System.out.println(Message.displayReport());
+                    break;
+
+                case "g":
+
+                    System.out.println("Returning to main menu...");
+                    break;
+
+                default:
+
+                    System.out.println(
+                            "Invalid option. Please choose a to g."
+                    );
+            }
+
+        } while (!option.equals("g"));
+    }
+
+    // ================= INPUT VALIDATION =================
+
     private static int readInt(Scanner input, String prompt) {
 
         while (true) {
+
             System.out.print(prompt);
 
             if (input.hasNextInt()) {
@@ -183,11 +280,11 @@ public class Main {
         }
     }
 
-    // Read zero or a positive integer
     private static int readNonNegativeInt(
             Scanner input, String prompt) {
 
         while (true) {
+
             int number = readInt(input, prompt);
 
             if (number >= 0) {
