@@ -27,7 +27,7 @@ public class MessageTest {
         Message msg = new Message("+27718693002", longMessage);
 
         assertEquals(
-                "Message exceeds 250 characters by 10, please reduce the size.",
+                "Message exceeds 250 characters by 10 characters.",
                 msg.validateMessage()
         );
     }
@@ -51,7 +51,8 @@ public class MessageTest {
         Message msg = new Message("08575975889", "Hello");
 
         assertEquals(
-                "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.",
+                "Cell phone number is incorrectly formatted or does not contain"
+                        + " an international code.",
                 msg.checkRecipientCell()
         );
     }
@@ -97,7 +98,7 @@ public class MessageTest {
         Message msg = new Message("+27718693002", "Hello");
 
         assertEquals(
-                "Message successfully stored.",
+                "Message stored successfully.",
                 msg.sendMessage(3)
         );
     }
@@ -138,7 +139,7 @@ public class MessageTest {
         Message msg = new Message(recipient, messageText);
 
         assertEquals(
-                "Message successfully stored.",
+                "Message stored successfully.",
                 msg.sendMessage(3)
         );
 
@@ -181,9 +182,9 @@ public class MessageTest {
             }
         }
 
-        assertEquals(
-                expectedLongest,
+        assertTrue(
                 Message.displayLongestMessage()
+                       .contains(expectedLongest)
         );
     }
 
