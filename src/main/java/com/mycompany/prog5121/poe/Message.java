@@ -70,6 +70,21 @@ public class Message {
         messageIDs.add(messageID);
         messageHashes.add(messageHash);
     }
+    
+    private Message(String sender,
+                String recipient,
+                String message,
+                String messageID,
+                String messageHash,
+                String status) {
+
+    this.sender = sender;
+    this.recipient = recipient;
+    this.message = message;
+    this.messageID = messageID;
+    this.messageHash = messageHash;
+    this.status = status;
+}
 
     /**
      * Generate Message ID
@@ -636,3 +651,23 @@ public class Message {
         return messageIDs;
     }
 }
+
+String messageID =
+        (String) obj.get("MessageID");
+
+String messageHash =
+        (String) obj.get("MessageHash");
+
+String status =
+        (String) obj.get("Status");
+
+Message storedMessage =
+        new Message(
+                sender,
+                recipient,
+                message,
+                messageID,
+                messageHash,
+                status
+        );
+
