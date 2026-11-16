@@ -605,6 +605,10 @@ public class Message {
     public String getMessage() {
         return message;
     }
+    
+    public String getStatus() {
+    return status;
+}
 
     public static ArrayList<String> getSentMessages() {
         return sentMessages;
