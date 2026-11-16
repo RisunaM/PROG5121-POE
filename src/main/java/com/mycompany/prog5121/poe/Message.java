@@ -51,13 +51,18 @@ public class Message {
     
     public Message(String sender, String recipient, String message) {
 
+        this.sender = sender;
         this.recipient = recipient;
         this.message = message;
-        this.messageNumber = totalMessages;
+        
+        this.messageNumber = totalMessages + 1;
 
         this.messageID = generateMessageID();
 
         this.messageHash = createMessageHash();
+        
+        messageIDs.add(messageID);
+        messageHashes.add(messageHash);
     }
 
     /**
