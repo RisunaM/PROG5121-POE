@@ -670,4 +670,3 @@ Message storedMessage =
                 messageHash,
                 status
         );
-

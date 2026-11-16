@@ -1,3 +1,10 @@
 [{"messageID":"2759061768","messageHash":"27:1:HELLOHELLO","recipient":"+27718693002","message":"Hello"}]{"Message":"Hello","Recipient":"+27718693002","MessageHash":"57:0:HELLOHELLO","MessageID":"5785417524"}
 {"Message":"Hello","Recipient":"+27718693002","MessageHash":"47:0:HELLOHELLO","MessageID":"4708263516"}
 {"Message":"Hello","Recipient":"+27718693002","MessageHash":"46:0:HELLOHELLO","MessageID":"4681134690"}
+{"Sender":"Developer","Status":"Stored","Message":"Hello","Recipient":"+27718693002","MessageHash":"30:1:HELLOHELLO","MessageID":"3047059807"}
+{"Sender":"Developer","Status":"Stored","Message":"Recipient search test 67890","Recipient":"+27718693002","MessageHash":"26:1:RECIPIENT67890","MessageID":"2676690161"}
+{"Sender":"Developer","Status":"Stored","Message":"Search by ID test message.","Recipient":"+27718693002","MessageHash":"35:2:SEARCHMESSAGE","MessageID":"3543061365"}
+{"Sender":"Developer","Status":"Stored","Message":"This is a test of the longest stored message.","Recipient":"+27718693002","MessageHash":"19:2:THISMESSAGE","MessageID":"1987588844"}
+{"Sender":"Developer","Status":"Stored","Message":"Full report test message 54321","Recipient":"+27718693002","MessageHash":"68:2:FULL54321","MessageID":"6817731628"}
+{"Sender":"Developer","Status":"Stored","Message":"Message to delete using hash 98765.","Recipient":"+27718693002","MessageHash":"46:2:MESSAGE98765","MessageID":"4682209350"}
+{"Sender":"Developer","Status":"Stored","Message":"Hello","Recipient":"+27718693002","MessageHash":"60:2:HELLOHELLO","MessageID":"6022702668"}
