@@ -1,10 +1,10 @@
 package com.mycompany.prog5121.poe;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * Handles message creation, validation, storage and display.
