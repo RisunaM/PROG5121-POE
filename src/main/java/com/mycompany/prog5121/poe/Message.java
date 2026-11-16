@@ -198,8 +198,10 @@ public class Message {
 
         obj.put("MessageID", messageID);
         obj.put("MessageHash", messageHash);
+        obj.put("Sender", sender);
         obj.put("Recipient", recipient);
         obj.put("Message", message);
+        obj.put("Status", status);
 
         try {
 
@@ -222,7 +224,7 @@ public class Message {
         } catch (IOException e) {
 
             System.out.println(
-                    "Error storing message."
+                    "Error storing message." + e.getMessage()
             );
         }
     }
